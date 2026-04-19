@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPOSITORY_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+CURRENT_CHECK=""
+
+function report_failure() {
+    local exit_code="$?"
+
+    echo
+    echo "Pre-commit checks failed."
+
+    case "${CURRENT_CHECK}" in
+        "php-cs:check")
+            echo "Reason: coding standards check failed."
+            echo "Inspect the output above for style violations or a missing php-cs-fixer binary."
+            echo "If the binary is missing, install dev dependencies with Composer first."
+            ;;
+        "stan")
+            echo "Reason: PHPStan reported static analysis errors."
+            echo "Inspect the output above for the failing files or symbols and fix those issues before committing."
+            ;;
+        "test")
+            echo "Reason: the test suite reported one or more failures."
+            echo "Inspect the output above for the failing test cases and fix the underlying behaviour before committing."
+            ;;
+        *)
+            echo "Reason: an unexpected pre-commit failure occurred."
+            echo "Inspect the output above for the command that failed."
+            ;;
+    esac
+
+    exit "${exit_code}"
+}
+
+trap report_failure ERR
+
+cd "${REPOSITORY_ROOT}"
+
+echo "Running pre-commit checks..."
+
+echo
+echo "1/3 php-cs:check"
+CURRENT_CHECK="php-cs:check"
+composer php-cs:check
+
+echo
+echo "2/3 stan"
+CURRENT_CHECK="stan"
+composer stan
+
+echo
+echo "3/3 test"
+CURRENT_CHECK="test"
+composer test
+
+echo
+echo "Pre-commit checks passed."

@@ -1,0 +1,7 @@
+vendor/
+.phpunit.result.cache
+.phpunit.cache
+.idea
+.phpstan
+HANDOVER.md
+.php-cs-fixer.cache

@@ -1,0 +1,59 @@
+{
+    "name": "conundrum-codex/binding-engine-vocabulary-loader",
+    "description": "JSON loader for Conundrum Codex binding vocabularies",
+    "type": "library",
+    "license": "AGPL-3.0-or-later",
+    "autoload": {
+        "psr-4": {
+            "ConundrumCodex\\BindingEngineVocabularyLoader\\": "src/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:Conundrum-Codex/binding-engine-parser.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:Conundrum-Codex/binding-engine-vocabulary.git"
+        }
+    ],
+    "authors": [
+        {
+            "name": "Sam Baynham",
+            "email": "sam.baynham@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "homepage": "https://github.com/Conundrum-Codex/binding-engine-vocabulary-loader",
+    "support": {
+        "issues": "https://github.com/Conundrum-Codex/binding-engine-vocabulary-loader/issues",
+        "source": "https://github.com/Conundrum-Codex/binding-engine-vocabulary-loader"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        },
+        "sort-packages": true
+    },
+    "scripts": {
+        "hooks:install": [
+            "git config core.hooksPath .githooks",
+            "chmod +x .githooks/pre-commit"
+        ],
+        "php-cs:check": "vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --dry-run --diff --verbose --sequential",
+        "php-cs:fix": "vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --verbose --sequential",
+        "test": "pest",
+        "stan": "php -d memory_limit=1G vendor/bin/phpstan analyse"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "dev-master",
+        "mockery/mockery": "2.0.x-dev",
+        "pestphp/pest": "5.x-dev",
+        "phpstan/phpstan": "2.2.x-dev",
+        "symfony/var-dumper": "8.1.x-dev"
+    },
+    "require": {
+        "conundrum-codex/binding-engine-vocabulary": ">=0.1.0 <1.0.0"
+    }
+}
