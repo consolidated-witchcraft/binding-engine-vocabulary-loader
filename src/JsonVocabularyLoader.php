@@ -15,6 +15,8 @@ use ConundrumCodex\BindingEngine\VocabularyLoader\Interfaces\VocabularyLoaderInt
 
 final readonly class JsonVocabularyLoader implements VocabularyLoaderInterface
 {
+    private const string ROOT_PATH = '';
+
     public function __construct(
         private BindingTypeDefinitionFactory $bindingTypeDefinitionFactory = new BindingTypeDefinitionFactory(
             new AttributeDefinitionFactory(),
@@ -89,6 +91,7 @@ final readonly class JsonVocabularyLoader implements VocabularyLoaderInterface
      *
      * @throws InvalidJsonException
      * @throws MalformedTopLevelStructureException
+     * @throws \JsonException
      */
     private static function decodeJson(string $input): array
     {
@@ -111,5 +114,4 @@ final readonly class JsonVocabularyLoader implements VocabularyLoaderInterface
         return $decodedArray;
     }
 
-    private const string ROOT_PATH = '';
 }
