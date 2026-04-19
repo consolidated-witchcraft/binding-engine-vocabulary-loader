@@ -6,7 +6,11 @@ namespace ConundrumCodex\BindingEngine\VocabularyLoader;
 
 use ConundrumCodex\BindingEngine\Vocabulary\Exceptions\InvalidVocabularyException;
 use ConundrumCodex\BindingEngine\Vocabulary\Vocabulary;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\VocabularyLoadingException;
+use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\AbstractVocabularyLoadingException;
+use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\DomainConstructionFailedException;
+use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\InvalidJsonException;
+use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\MalformedTopLevelStructureException;
+use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\UnexpectedValueTypeException;
 use ConundrumCodex\BindingEngine\VocabularyLoader\Interfaces\VocabularyLoaderInterface;
 
 final readonly class JsonVocabularyLoader implements VocabularyLoaderInterface
@@ -19,37 +23,48 @@ final readonly class JsonVocabularyLoader implements VocabularyLoaderInterface
     }
 
     /**
-     * @throws VocabularyLoadingException
+     * @throws AbstractVocabularyLoadingException
      */
     public function load(string $input): Vocabulary
     {
-        $data = $this->decodeJson($input);
+        $data = self::decodeJson(input: $input);
 
-        $identifier = $this->requireString($data, 'identifier', '');
-        $label = $this->requireString($data, 'label', '');
-        $version = $this->requireString($data, 'version', '');
+        $identifier = DecodedJsonValueAccessor::requireString(
+            data: $data,
+            key: 'identifier',
+            path: self::ROOT_PATH,
+        );
+        $label = DecodedJsonValueAccessor::requireString(
+            data: $data,
+            key: 'label',
+            path: self::ROOT_PATH,
+        );
+        $version = DecodedJsonValueAccessor::requireString(
+            data: $data,
+            key: 'version',
+            path: self::ROOT_PATH,
+        );
 
-        if (!array_key_exists('bindingTypes', $data)) {
-            throw new VocabularyLoadingException('Missing required key "bindingTypes".');
-        }
-
-        if (!is_array($data['bindingTypes'])) {
-            throw new VocabularyLoadingException('Expected array at "bindingTypes".');
-        }
+        $bindingTypes = DecodedJsonValueAccessor::requireArray(
+            data: $data,
+            key: 'bindingTypes',
+            path: self::ROOT_PATH,
+        );
 
         $bindingTypeDefinitions = [];
 
-        foreach ($data['bindingTypes'] as $index => $bindingTypeData) {
+        foreach ($bindingTypes as $index => $bindingTypeData) {
             if (!is_array($bindingTypeData)) {
-                throw new VocabularyLoadingException(
-                    sprintf('Expected object-like array at "bindingTypes[%d]".', $index),
+                throw new UnexpectedValueTypeException(
+                    expectedType: 'object-like array',
+                    path: sprintf('bindingTypes[%d]', $index),
                 );
             }
 
             /** @var array<string, mixed> $bindingTypeData */
             $bindingTypeDefinitions[] = $this->bindingTypeDefinitionFactory->fromArray(
-                $bindingTypeData,
-                sprintf('bindingTypes[%d]', $index),
+                data: $bindingTypeData,
+                path: sprintf('bindingTypes[%d]', $index),
             );
         }
 
@@ -61,10 +76,10 @@ final readonly class JsonVocabularyLoader implements VocabularyLoaderInterface
                 bindingTypeDefinitions: $bindingTypeDefinitions,
             );
         } catch (InvalidVocabularyException $exception) {
-            throw new VocabularyLoadingException(
-                sprintf('Invalid vocabulary: %s', $exception->getMessage()),
-                0,
-                $exception,
+            throw new DomainConstructionFailedException(
+                subject: 'vocabulary',
+                detail: $exception->getMessage(),
+                previous: $exception,
             );
         }
     }
@@ -72,23 +87,22 @@ final readonly class JsonVocabularyLoader implements VocabularyLoaderInterface
     /**
      * @return array<string, mixed>
      *
-     * @throws VocabularyLoadingException
-     * @throws \JsonException
+     * @throws InvalidJsonException
+     * @throws MalformedTopLevelStructureException
      */
-    private function decodeJson(string $input): array
+    private static function decodeJson(string $input): array
     {
         try {
             $decoded = json_decode($input, flags: JSON_THROW_ON_ERROR);
         } catch (\JsonException $exception) {
-            throw new VocabularyLoadingException(
-                sprintf('Invalid JSON: %s', $exception->getMessage()),
-                0,
-                $exception,
+            throw new InvalidJsonException(
+                detail: $exception->getMessage(),
+                previous: $exception,
             );
         }
 
         if (!$decoded instanceof \stdClass) {
-            throw new VocabularyLoadingException('Expected top-level JSON object.');
+            throw new MalformedTopLevelStructureException();
         }
 
         /** @var array<string, mixed> $decodedArray */
@@ -97,37 +111,5 @@ final readonly class JsonVocabularyLoader implements VocabularyLoaderInterface
         return $decodedArray;
     }
 
-    /**
-     * @param array<string, mixed> $data
-     *
-     * @throws VocabularyLoadingException
-     */
-    private function requireString(array $data, string $key, string $path): string
-    {
-        if (!array_key_exists($key, $data)) {
-            if ($path === '') {
-                throw new VocabularyLoadingException(
-                    sprintf('Missing required key "%s".', $key),
-                );
-            }
-
-            throw new VocabularyLoadingException(
-                sprintf('Missing required key "%s" at "%s".', $key, $path),
-            );
-        }
-
-        if (!is_string($data[$key])) {
-            if ($path === '') {
-                throw new VocabularyLoadingException(
-                    sprintf('Expected string at "%s".', $key),
-                );
-            }
-
-            throw new VocabularyLoadingException(
-                sprintf('Expected string at "%s.%s".', $path, $key),
-            );
-        }
-
-        return $data[$key];
-    }
+    private const string ROOT_PATH = '';
 }

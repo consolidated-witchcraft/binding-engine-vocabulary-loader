@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 use ConundrumCodex\BindingEngine\Vocabulary\Enums\AttributeValueTypeEnum;
 use ConundrumCodex\BindingEngine\VocabularyLoader\AttributeDefinitionFactory;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\VocabularyLoadingException;
+use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\DomainConstructionFailedException;
+use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\InvalidEnumValueException;
+use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\MissingRequiredKeyException;
+use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\UnexpectedValueTypeException;
 
 it(
     'constructs an attribute definition from valid non-enum data',
@@ -103,8 +106,8 @@ it(
                 path: 'bindingTypes[0].attributes[0]',
             )
         )->toThrow(
-            VocabularyLoadingException::class,
-            sprintf(
+            exception: MissingRequiredKeyException::class,
+            exceptionMessage: sprintf(
                 'Missing required key "%s" at "bindingTypes[0].attributes[0]".',
                 $missingKey,
             ),
@@ -137,8 +140,8 @@ it(
                 path: 'bindingTypes[0].attributes[0]',
             )
         )->toThrow(
-            VocabularyLoadingException::class,
-            sprintf(
+            exception: UnexpectedValueTypeException::class,
+            exceptionMessage: sprintf(
                 'Expected string at "bindingTypes[0].attributes[0].%s".',
                 $key,
             ),
@@ -167,8 +170,8 @@ it(
                 path: 'bindingTypes[0].attributes[0]',
             )
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Invalid valueType "banana" at "bindingTypes[0].attributes[0].valueType".',
+            exception: InvalidEnumValueException::class,
+            exceptionMessage: 'Invalid valueType "banana" at "bindingTypes[0].attributes[0].valueType".',
         );
     }
 );
@@ -190,8 +193,8 @@ it(
                 path: 'bindingTypes[0].attributes[0]',
             )
         )->toThrow(
-            VocabularyLoadingException::class,
-            sprintf(
+            exception: UnexpectedValueTypeException::class,
+            exceptionMessage: sprintf(
                 'Expected boolean at "bindingTypes[0].attributes[0].%s".',
                 $key,
             ),
@@ -219,8 +222,8 @@ it(
                 path: 'bindingTypes[0].attributes[0]',
             )
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Expected array at "bindingTypes[0].attributes[0].allowedValues".',
+            exception: UnexpectedValueTypeException::class,
+            exceptionMessage: 'Expected array at "bindingTypes[0].attributes[0].allowedValues".',
         );
     }
 );
@@ -242,8 +245,8 @@ it(
                 path: 'bindingTypes[0].attributes[0]',
             )
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Expected string at "bindingTypes[0].attributes[0].allowedValues[1]".',
+            exception: UnexpectedValueTypeException::class,
+            exceptionMessage: 'Expected string at "bindingTypes[0].attributes[0].allowedValues[1]".',
         );
     }
 );
@@ -264,8 +267,8 @@ it(
                 path: 'bindingTypes[0].attributes[0]',
             )
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Invalid attribute definition at "bindingTypes[0].attributes[0]": Invalid attribute identifier "bad_identifier".',
+            exception: DomainConstructionFailedException::class,
+            exceptionMessage: 'Invalid attribute definition at "bindingTypes[0].attributes[0]": Invalid attribute identifier "bad_identifier".',
         );
     }
 );
@@ -286,8 +289,8 @@ it(
                 path: 'bindingTypes[0].attributes[0]',
             )
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Invalid attribute definition at "bindingTypes[0].attributes[0]": Enum attributes must define allowed values.',
+            exception: DomainConstructionFailedException::class,
+            exceptionMessage: 'Invalid attribute definition at "bindingTypes[0].attributes[0]": Enum attributes must define allowed values.',
         );
     }
 );
@@ -309,8 +312,8 @@ it(
                 path: 'bindingTypes[0].attributes[0]',
             )
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Invalid attribute definition at "bindingTypes[0].attributes[0]": Allowed values may only be defined for enum value types.',
+            exception: DomainConstructionFailedException::class,
+            exceptionMessage: 'Invalid attribute definition at "bindingTypes[0].attributes[0]": Allowed values may only be defined for enum value types.',
         );
     }
 );
@@ -332,8 +335,8 @@ it(
                 path: 'bindingTypes[0].attributes[0]',
             )
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Invalid attribute definition at "bindingTypes[0].attributes[0]": Allowed values must not be an empty array.',
+            exception: DomainConstructionFailedException::class,
+            exceptionMessage: 'Invalid attribute definition at "bindingTypes[0].attributes[0]": Allowed values must not be an empty array.',
         );
     }
 );
@@ -355,8 +358,8 @@ it(
                 path: 'bindingTypes[0].attributes[0]',
             )
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Invalid attribute definition at "bindingTypes[0].attributes[0]": Allowed values must be non-empty strings.',
+            exception: DomainConstructionFailedException::class,
+            exceptionMessage: 'Invalid attribute definition at "bindingTypes[0].attributes[0]": Allowed values must be non-empty strings.',
         );
     }
 );

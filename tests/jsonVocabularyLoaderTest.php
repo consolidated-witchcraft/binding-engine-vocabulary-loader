@@ -4,7 +4,12 @@ declare(strict_types=1);
 
 use ConundrumCodex\BindingEngine\Vocabulary\Enums\AttributeValueTypeEnum;
 use ConundrumCodex\BindingEngine\Vocabulary\Enums\BindingPayloadShapeEnum;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\VocabularyLoadingException;
+use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\DomainConstructionFailedException;
+use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\InvalidEnumValueException;
+use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\InvalidJsonException;
+use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\MalformedTopLevelStructureException;
+use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\MissingRequiredKeyException;
+use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\UnexpectedValueTypeException;
 use ConundrumCodex\BindingEngine\VocabularyLoader\JsonVocabularyLoader;
 
 it(
@@ -30,11 +35,11 @@ it(
             ],
         ], JSON_THROW_ON_ERROR);
 
-        $vocabulary = $loader->load($json);
+        $vocabulary = $loader->load(input: $json);
 
-        expect($vocabulary->hasBindingTypeDefinition('person'))->toBeTrue();
+        expect($vocabulary->hasBindingTypeDefinition(identifier: 'person'))->toBeTrue();
 
-        $bindingTypeDefinition = $vocabulary->getBindingTypeDefinition('person');
+        $bindingTypeDefinition = $vocabulary->getBindingTypeDefinition(identifier: 'person');
 
         expect($bindingTypeDefinition)->not->toBeNull()
             ->and($bindingTypeDefinition->getIdentifier())->toBe('person')
@@ -88,19 +93,19 @@ it(
             ],
         ], JSON_THROW_ON_ERROR);
 
-        $vocabulary = $loader->load($json);
-        $bindingTypeDefinition = $vocabulary->getBindingTypeDefinition('event');
+        $vocabulary = $loader->load(input: $json);
+        $bindingTypeDefinition = $vocabulary->getBindingTypeDefinition(identifier: 'event');
 
         expect($bindingTypeDefinition)->not->toBeNull()
             ->and($bindingTypeDefinition->getAllowedPayloadShapes())->toBe([
                 BindingPayloadShapeEnum::AttributeList,
             ])
             ->and($bindingTypeDefinition->getAttributeDefinitions())->toHaveCount(2)
-            ->and($bindingTypeDefinition->hasAttributeDefinition('type'))->toBeTrue()
-            ->and($bindingTypeDefinition->hasAttributeDefinition('status'))->toBeTrue();
+            ->and($bindingTypeDefinition->hasAttributeDefinition(identifier: 'type'))->toBeTrue()
+            ->and($bindingTypeDefinition->hasAttributeDefinition(identifier: 'status'))->toBeTrue();
 
-        $typeAttribute = $bindingTypeDefinition->getAttributeDefinition('type');
-        $statusAttribute = $bindingTypeDefinition->getAttributeDefinition('status');
+        $typeAttribute = $bindingTypeDefinition->getAttributeDefinition(identifier: 'type');
+        $statusAttribute = $bindingTypeDefinition->getAttributeDefinition(identifier: 'status');
 
         expect($typeAttribute)->not->toBeNull()
             ->and($typeAttribute->getValueType())->toBe(AttributeValueTypeEnum::String)
@@ -122,10 +127,10 @@ it(
         $loader = new JsonVocabularyLoader();
 
         expect(
-            fn () => $loader->load('{"bindingTypes": [}')
+            fn () => $loader->load(input: '{"bindingTypes": [}')
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Invalid JSON:',
+            exception: InvalidJsonException::class,
+            exceptionMessage: 'Invalid JSON:',
         );
     }
 );
@@ -139,9 +144,9 @@ it(
         $loader = new JsonVocabularyLoader();
 
         expect(
-            fn () => $loader->load(json_encode(['not', 'an', 'object'], JSON_THROW_ON_ERROR))
+            fn () => $loader->load(input: json_encode(['not', 'an', 'object'], JSON_THROW_ON_ERROR))
         )->toThrow(
-            VocabularyLoadingException::class
+            exception: MalformedTopLevelStructureException::class,
         );
     }
 );
@@ -162,10 +167,10 @@ it(
         ], JSON_THROW_ON_ERROR);
 
         expect(
-            fn () => $loader->load($json)
+            fn () => $loader->load(input: $json)
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Missing required key "bindingTypes".',
+            exception: MissingRequiredKeyException::class,
+            exceptionMessage: 'Missing required key "bindingTypes".',
         );
     }
 );
@@ -186,10 +191,10 @@ it(
         ], JSON_THROW_ON_ERROR);
 
         expect(
-            fn () => $loader->load($json)
+            fn () => $loader->load(input: $json)
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Expected array at "bindingTypes".',
+            exception: UnexpectedValueTypeException::class,
+            exceptionMessage: 'Expected array at "bindingTypes".',
         );
     }
 );
@@ -210,10 +215,10 @@ it(
         ], JSON_THROW_ON_ERROR);
 
         expect(
-            fn () => $loader->load($json)
+            fn () => $loader->load(input: $json)
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Expected object-like array at "bindingTypes[0]".',
+            exception: UnexpectedValueTypeException::class,
+            exceptionMessage: 'Expected object-like array at "bindingTypes[0]".',
         );
     }
 );
@@ -241,10 +246,10 @@ it(
         ], JSON_THROW_ON_ERROR);
 
         expect(
-            fn () => $loader->load($json)
+            fn () => $loader->load(input: $json)
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Missing required key "identifier" at "bindingTypes[0]".',
+            exception: MissingRequiredKeyException::class,
+            exceptionMessage: 'Missing required key "identifier" at "bindingTypes[0]".',
         );
     }
 );
@@ -273,10 +278,10 @@ it(
         ], JSON_THROW_ON_ERROR);
 
         expect(
-            fn () => $loader->load($json)
+            fn () => $loader->load(input: $json)
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Invalid payload shape "banana" at "bindingTypes[0].allowedPayloadShapes[0]".',
+            exception: InvalidEnumValueException::class,
+            exceptionMessage: 'Invalid payload shape "banana" at "bindingTypes[0].allowedPayloadShapes[0]".',
         );
     }
 );
@@ -312,10 +317,10 @@ it(
         ], JSON_THROW_ON_ERROR);
 
         expect(
-            fn () => $loader->load($json)
+            fn () => $loader->load(input: $json)
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Invalid valueType "banana" at "bindingTypes[0].attributes[0].valueType".',
+            exception: InvalidEnumValueException::class,
+            exceptionMessage: 'Invalid valueType "banana" at "bindingTypes[0].attributes[0].valueType".',
         );
     }
 );
@@ -351,10 +356,10 @@ it(
         ], JSON_THROW_ON_ERROR);
 
         expect(
-            fn () => $loader->load($json)
+            fn () => $loader->load(input: $json)
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Invalid vocabulary: Vocabulary contains duplicate binding type definition "event".',
+            exception: DomainConstructionFailedException::class,
+            exceptionMessage: 'Invalid vocabulary: Vocabulary contains duplicate binding type definition "event".',
         );
     }
 );
@@ -396,10 +401,10 @@ it(
         ], JSON_THROW_ON_ERROR);
 
         expect(
-            fn () => $loader->load($json)
+            fn () => $loader->load(input: $json)
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Invalid binding type definition at "bindingTypes[0]": Binding type definition contains duplicate attribute definition "type".',
+            exception: DomainConstructionFailedException::class,
+            exceptionMessage: 'Invalid binding type definition at "bindingTypes[0]": Binding type definition contains duplicate attribute definition "type".',
         );
     }
 );
@@ -416,10 +421,10 @@ it(
         ], JSON_THROW_ON_ERROR);
 
         expect(
-            fn () => $loader->load($json)
+            fn () => $loader->load(input: $json)
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Missing required key "identifier".',
+            exception: MissingRequiredKeyException::class,
+            exceptionMessage: 'Missing required key "identifier".',
         );
     }
 );
@@ -436,10 +441,10 @@ it(
         ], JSON_THROW_ON_ERROR);
 
         expect(
-            fn () => $loader->load($json)
+            fn () => $loader->load(input: $json)
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Missing required key "label".',
+            exception: MissingRequiredKeyException::class,
+            exceptionMessage: 'Missing required key "label".',
         );
     }
 );
@@ -456,10 +461,10 @@ it(
         ], JSON_THROW_ON_ERROR);
 
         expect(
-            fn () => $loader->load($json)
+            fn () => $loader->load(input: $json)
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Missing required key "version".',
+            exception: MissingRequiredKeyException::class,
+            exceptionMessage: 'Missing required key "version".',
         );
     }
 );
@@ -477,10 +482,10 @@ it(
         ], JSON_THROW_ON_ERROR);
 
         expect(
-            fn () => $loader->load($json)
+            fn () => $loader->load(input: $json)
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Expected string at "identifier".',
+            exception: UnexpectedValueTypeException::class,
+            exceptionMessage: 'Expected string at "identifier".',
         );
     }
 );
@@ -498,10 +503,10 @@ it(
         ], JSON_THROW_ON_ERROR);
 
         expect(
-            fn () => $loader->load($json)
+            fn () => $loader->load(input: $json)
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Expected string at "label".',
+            exception: UnexpectedValueTypeException::class,
+            exceptionMessage: 'Expected string at "label".',
         );
     }
 );
@@ -522,10 +527,10 @@ it(
         ], JSON_THROW_ON_ERROR);
 
         expect(
-            fn () => $loader->load($json)
+            fn () => $loader->load(input: $json)
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Expected string at "version".',
+            exception: UnexpectedValueTypeException::class,
+            exceptionMessage: 'Expected string at "version".',
         );
     }
 );
@@ -538,10 +543,10 @@ it(
         $loader = new JsonVocabularyLoader();
 
         expect(
-            fn () => $loader->load(json_encode(['not', 'an', 'object'], JSON_THROW_ON_ERROR))
+            fn () => $loader->load(input: json_encode(['not', 'an', 'object'], JSON_THROW_ON_ERROR))
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Expected top-level JSON object.',
+            exception: MalformedTopLevelStructureException::class,
+            exceptionMessage: 'Expected top-level JSON object.',
         );
     }
 );
@@ -562,10 +567,10 @@ it(
         ], JSON_THROW_ON_ERROR);
 
         expect(
-            fn () => $loader->load($json)
+            fn () => $loader->load(input: $json)
         )->toThrow(
-            VocabularyLoadingException::class,
-            "Invalid vocabulary: The identifier 'Bad Identifier' is invalid. Identifiers may only contain lowercase letters and hyphens, and may not be empty.",
+            exception: DomainConstructionFailedException::class,
+            exceptionMessage: "Invalid vocabulary: The identifier 'Bad Identifier' is invalid. Identifiers may only contain lowercase letters and hyphens, and may not be empty.",
         );
     }
 );
@@ -586,10 +591,10 @@ it(
         ], JSON_THROW_ON_ERROR);
 
         expect(
-            fn () => $loader->load($json)
+            fn () => $loader->load(input: $json)
         )->toThrow(
-            VocabularyLoadingException::class,
-            "Invalid vocabulary: The label 'Bad🔥Label' is invalid. Labels may only contain numbers, letters, spaces, hyphens, apostrophes, ampersands, commas, parentheses, colons and full-stops (periods).",
+            exception: DomainConstructionFailedException::class,
+            exceptionMessage: "Invalid vocabulary: The label 'Bad🔥Label' is invalid. Labels may only contain numbers, letters, spaces, hyphens, apostrophes, ampersands, commas, parentheses, colons and full-stops (periods).",
         );
     }
 );
@@ -610,10 +615,10 @@ it(
         ], JSON_THROW_ON_ERROR);
 
         expect(
-            fn () => $loader->load($json)
+            fn () => $loader->load(input: $json)
         )->toThrow(
-            VocabularyLoadingException::class,
-            "Invalid vocabulary: The version '1.2' is invalid. Versions must conform to semantic versioning 2.0 standards.",
+            exception: DomainConstructionFailedException::class,
+            exceptionMessage: "Invalid vocabulary: The version '1.2' is invalid. Versions must conform to semantic versioning 2.0 standards.",
         );
     }
 );
@@ -648,10 +653,10 @@ it(
         ], JSON_THROW_ON_ERROR);
 
         expect(
-            fn () => $loader->load($json)
+            fn () => $loader->load(input: $json)
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Missing required key "identifier" at "bindingTypes[0].attributes[0]".',
+            exception: MissingRequiredKeyException::class,
+            exceptionMessage: 'Missing required key "identifier" at "bindingTypes[0].attributes[0]".',
         );
     }
 );
@@ -680,10 +685,10 @@ it(
         ], JSON_THROW_ON_ERROR);
 
         expect(
-            fn () => $loader->load($json)
+            fn () => $loader->load(input: $json)
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Expected array at "bindingTypes[0].attributes".',
+            exception: UnexpectedValueTypeException::class,
+            exceptionMessage: 'Expected array at "bindingTypes[0].attributes".',
         );
     }
 );
@@ -714,10 +719,10 @@ it(
         ], JSON_THROW_ON_ERROR);
 
         expect(
-            fn () => $loader->load($json)
+            fn () => $loader->load(input: $json)
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Expected object-like array at "bindingTypes[0].attributes[0]".',
+            exception: UnexpectedValueTypeException::class,
+            exceptionMessage: 'Expected object-like array at "bindingTypes[0].attributes[0]".',
         );
     }
 );

@@ -5,7 +5,10 @@ declare(strict_types=1);
 use ConundrumCodex\BindingEngine\Vocabulary\Enums\BindingPayloadShapeEnum;
 use ConundrumCodex\BindingEngine\VocabularyLoader\AttributeDefinitionFactory;
 use ConundrumCodex\BindingEngine\VocabularyLoader\BindingTypeDefinitionFactory;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\VocabularyLoadingException;
+use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\DomainConstructionFailedException;
+use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\InvalidEnumValueException;
+use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\MissingRequiredKeyException;
+use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\UnexpectedValueTypeException;
 
 it(
     'constructs a binding type definition from valid data',
@@ -47,9 +50,9 @@ it(
             ->and($definition->getDescription())->toBe('An event binding.')
             ->and($definition->getAllowedPayloadShapes())->toBe([BindingPayloadShapeEnum::AttributeList])
             ->and($definition->getAttributeDefinitions())->toHaveCount(2)
-            ->and($definition->hasAttributeDefinition('type'))->toBeTrue()
-            ->and($definition->hasAttributeDefinition('subject'))->toBeTrue()
-            ->and($definition->hasAttributeDefinition('missing'))->toBeFalse();
+            ->and($definition->hasAttributeDefinition(identifier: 'type'))->toBeTrue()
+            ->and($definition->hasAttributeDefinition(identifier: 'subject'))->toBeTrue()
+            ->and($definition->hasAttributeDefinition(identifier: 'missing'))->toBeFalse();
     }
 );
 
@@ -71,8 +74,8 @@ it(
             path: 'bindingTypes[0]',
         );
 
-        expect($definition->allowsPayloadShape(BindingPayloadShapeEnum::Shorthand))->toBeTrue()
-            ->and($definition->allowsPayloadShape(BindingPayloadShapeEnum::AttributeList))->toBeTrue()
+        expect($definition->allowsPayloadShape(payloadShape: BindingPayloadShapeEnum::Shorthand))->toBeTrue()
+            ->and($definition->allowsPayloadShape(payloadShape: BindingPayloadShapeEnum::AttributeList))->toBeTrue()
             ->and($definition->getAttributeDefinitions())->toBe([]);
     }
 );
@@ -100,8 +103,8 @@ it(
                 path: 'bindingTypes[0]',
             )
         )->toThrow(
-            VocabularyLoadingException::class,
-            sprintf(
+            exception: MissingRequiredKeyException::class,
+            exceptionMessage: sprintf(
                 'Missing required key "%s" at "bindingTypes[0]".',
                 $missingKey,
             ),
@@ -138,8 +141,8 @@ it(
                 path: 'bindingTypes[0]',
             )
         )->toThrow(
-            VocabularyLoadingException::class,
-            sprintf(
+            exception: UnexpectedValueTypeException::class,
+            exceptionMessage: sprintf(
                 'Expected string at "bindingTypes[0].%s".',
                 $key,
             ),
@@ -170,8 +173,8 @@ it(
                 path: 'bindingTypes[0]',
             )
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Expected array at "bindingTypes[0].allowedPayloadShapes".',
+            exception: UnexpectedValueTypeException::class,
+            exceptionMessage: 'Expected array at "bindingTypes[0].allowedPayloadShapes".',
         );
     }
 );
@@ -195,8 +198,8 @@ it(
                 path: 'bindingTypes[0]',
             )
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Expected string at "bindingTypes[0].allowedPayloadShapes[1]".',
+            exception: UnexpectedValueTypeException::class,
+            exceptionMessage: 'Expected string at "bindingTypes[0].allowedPayloadShapes[1]".',
         );
     }
 );
@@ -220,8 +223,8 @@ it(
                 path: 'bindingTypes[0]',
             )
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Invalid payload shape "banana" at "bindingTypes[0].allowedPayloadShapes[0]".',
+            exception: InvalidEnumValueException::class,
+            exceptionMessage: 'Invalid payload shape "banana" at "bindingTypes[0].allowedPayloadShapes[0]".',
         );
     }
 );
@@ -245,8 +248,8 @@ it(
                 path: 'bindingTypes[0]',
             )
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Expected array at "bindingTypes[0].attributes".',
+            exception: UnexpectedValueTypeException::class,
+            exceptionMessage: 'Expected array at "bindingTypes[0].attributes".',
         );
     }
 );
@@ -270,8 +273,8 @@ it(
                 path: 'bindingTypes[0]',
             )
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Expected object-like array at "bindingTypes[0].attributes[0]".',
+            exception: UnexpectedValueTypeException::class,
+            exceptionMessage: 'Expected object-like array at "bindingTypes[0].attributes[0]".',
         );
     }
 );
@@ -302,8 +305,8 @@ it(
                 path: 'bindingTypes[0]',
             )
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Invalid attribute definition at "bindingTypes[0].attributes[0]": Invalid attribute identifier "bad_identifier".',
+            exception: DomainConstructionFailedException::class,
+            exceptionMessage: 'Invalid attribute definition at "bindingTypes[0].attributes[0]": Invalid attribute identifier "bad_identifier".',
         );
     }
 );
@@ -327,8 +330,8 @@ it(
                 path: 'bindingTypes[0]',
             )
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Invalid binding type definition at "bindingTypes[0]": Invalid binding type identifier "bad_identifier".',
+            exception: DomainConstructionFailedException::class,
+            exceptionMessage: 'Invalid binding type definition at "bindingTypes[0]": Invalid binding type identifier "bad_identifier".',
         );
     }
 );
@@ -365,8 +368,8 @@ it(
                 path: 'bindingTypes[0]',
             )
         )->toThrow(
-            VocabularyLoadingException::class,
-            'Invalid binding type definition at "bindingTypes[0]": Binding type definition contains duplicate attribute definition "type".',
+            exception: DomainConstructionFailedException::class,
+            exceptionMessage: 'Invalid binding type definition at "bindingTypes[0]": Binding type definition contains duplicate attribute definition "type".',
         );
     }
 );
