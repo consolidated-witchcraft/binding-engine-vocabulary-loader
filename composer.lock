@@ -76,16 +76,16 @@
         },
         {
             "name": "conundrum-codex/binding-engine-vocabulary",
-            "version": "v0.1.0",
+            "version": "v0.1.1",
             "source": {
                 "type": "git",
                 "url": "git@github.com:Conundrum-Codex/binding-engine-vocabulary.git",
-                "reference": "264aa3a1c09e9464483d632ef6cc3a829e2e7193"
+                "reference": "3be09a30cc8a45f6146ff7c468359d1caf9a316e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Conundrum-Codex/binding-engine-vocabulary/zipball/264aa3a1c09e9464483d632ef6cc3a829e2e7193",
-                "reference": "264aa3a1c09e9464483d632ef6cc3a829e2e7193",
+                "url": "https://api.github.com/repos/Conundrum-Codex/binding-engine-vocabulary/zipball/3be09a30cc8a45f6146ff7c468359d1caf9a316e",
+                "reference": "3be09a30cc8a45f6146ff7c468359d1caf9a316e",
                 "shasum": ""
             },
             "require": {
@@ -141,9 +141,9 @@
             "homepage": "https://github.com/Conundrum-Codex/binding-engine-vocabulary",
             "support": {
                 "issues": "https://github.com/Conundrum-Codex/binding-engine-vocabulary/issues",
-                "source": "https://github.com/Conundrum-Codex/binding-engine-vocabularyer"
+                "source": "https://github.com/Conundrum-Codex/binding-engine-vocabulary"
             },
-            "time": "2026-04-19T14:14:35+00:00"
+            "time": "2026-04-19T20:50:16+00:00"
         }
     ],
     "packages-dev": [
@@ -829,12 +829,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "9d26399154ef416974ec6c35674d5fabd11e2ad8"
+                "reference": "5dc39e60f0606b195674065ec4454bf5d179b02f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/9d26399154ef416974ec6c35674d5fabd11e2ad8",
-                "reference": "9d26399154ef416974ec6c35674d5fabd11e2ad8",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/5dc39e60f0606b195674065ec4454bf5d179b02f",
+                "reference": "5dc39e60f0606b195674065ec4454bf5d179b02f",
                 "shasum": ""
             },
             "require": {
@@ -927,7 +927,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-04-16T14:48:43+00:00"
+            "time": "2026-04-19T20:23:27+00:00"
         },
         {
             "name": "jean85/pretty-package-versions",
