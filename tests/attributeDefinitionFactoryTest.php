@@ -291,3 +291,72 @@ it(
         );
     }
 );
+
+it(
+    'wraps non-enum allowed values domain rule failures with path context',
+    function () {
+        $factory = new AttributeDefinitionFactory();
+
+        expect(
+            fn () => $factory->fromArray(
+                data: [
+                    'identifier' => 'status',
+                    'label' => 'Status',
+                    'description' => 'Description',
+                    'valueType' => 'string',
+                    'allowedValues' => ['draft', 'published'],
+                ],
+                path: 'bindingTypes[0].attributes[0]',
+            )
+        )->toThrow(
+            VocabularyLoadingException::class,
+            'Invalid attribute definition at "bindingTypes[0].attributes[0]": Allowed values may only be defined for enum value types.',
+        );
+    }
+);
+
+it(
+    'wraps empty allowed values array domain rule failures with path context',
+    function () {
+        $factory = new AttributeDefinitionFactory();
+
+        expect(
+            fn () => $factory->fromArray(
+                data: [
+                    'identifier' => 'status',
+                    'label' => 'Status',
+                    'description' => 'Description',
+                    'valueType' => 'enum',
+                    'allowedValues' => [],
+                ],
+                path: 'bindingTypes[0].attributes[0]',
+            )
+        )->toThrow(
+            VocabularyLoadingException::class,
+            'Invalid attribute definition at "bindingTypes[0].attributes[0]": Allowed values must not be an empty array.',
+        );
+    }
+);
+
+it(
+    'wraps blank allowed value member domain rule failures with path context',
+    function () {
+        $factory = new AttributeDefinitionFactory();
+
+        expect(
+            fn () => $factory->fromArray(
+                data: [
+                    'identifier' => 'status',
+                    'label' => 'Status',
+                    'description' => 'Description',
+                    'valueType' => 'enum',
+                    'allowedValues' => ['draft', '   '],
+                ],
+                path: 'bindingTypes[0].attributes[0]',
+            )
+        )->toThrow(
+            VocabularyLoadingException::class,
+            'Invalid attribute definition at "bindingTypes[0].attributes[0]": Allowed values must be non-empty strings.',
+        );
+    }
+);
