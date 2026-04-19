@@ -5,7 +5,12 @@
     "license": "AGPL-3.0-or-later",
     "autoload": {
         "psr-4": {
-            "ConundrumCodex\\BindingEngineVocabularyLoader\\": "src/"
+            "ConundrumCodex\\BindingEngine\\VocabularyLoader\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
         }
     },
     "repositories": [
