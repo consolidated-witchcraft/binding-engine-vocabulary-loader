@@ -37,7 +37,6 @@ final readonly class AttributeDefinitionFactory
         );
         $valueType = self::requireAttributeValueTypeEnum(
             data: $data,
-            key: 'valueType',
             path: $path,
         );
         $required = DecodedJsonValueAccessor::optionalBool(
@@ -83,11 +82,11 @@ final readonly class AttributeDefinitionFactory
      *
      * @throws InvalidEnumValueException
      */
-    private static function requireAttributeValueTypeEnum(array $data, string $key, string $path): AttributeValueTypeEnum
+    private static function requireAttributeValueTypeEnum(array $data, string $path): AttributeValueTypeEnum
     {
         $value = DecodedJsonValueAccessor::requireString(
             data: $data,
-            key: $key,
+            key: 'valueType',
             path: $path,
         );
 
@@ -97,7 +96,7 @@ final readonly class AttributeDefinitionFactory
             throw new InvalidEnumValueException(
                 fieldName: 'valueType',
                 value: $value,
-                path: sprintf('%s.%s', $path, $key),
+                path: sprintf('%s.%s', $path, 'valueType'),
                 previous: $exception,
             );
         }

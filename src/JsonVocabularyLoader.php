@@ -26,6 +26,7 @@ final readonly class JsonVocabularyLoader implements VocabularyLoaderInterface
 
     /**
      * @throws AbstractVocabularyLoadingException
+     * @throws \JsonException
      */
     public function load(string $input): Vocabulary
     {
