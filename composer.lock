@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9a07523b9eab5b5663af1cf69fdaea2b",
+    "content-hash": "10d4b7c60768220838aee94a51d8ccff",
     "packages": [
         {
             "name": "conundrum-codex/binding-engine-parser",
@@ -989,85 +989,6 @@
                 "source": "https://github.com/Jean85/pretty-package-versions/tree/2.x"
             },
             "time": "2026-03-30T10:15:08+00:00"
-        },
-        {
-            "name": "mockery/mockery",
-            "version": "2.0.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mockery/mockery.git",
-                "reference": "bfdbf7326fb03fba8dd8c02acba7269e2f7b7abf"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mockery/mockery/zipball/bfdbf7326fb03fba8dd8c02acba7269e2f7b7abf",
-                "reference": "bfdbf7326fb03fba8dd8c02acba7269e2f7b7abf",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "ext-mbstring": "*",
-                "ext-pcre": "*",
-                "php": "^8.1 || ^8.2 || ^8.3"
-            },
-            "conflict": {
-                "phpunit/phpunit": "<8.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^8.5 || ^9.6",
-                "psalm/plugin-phpunit": "^0.18",
-                "vimeo/psalm": "^5.12"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "1.6.x-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "src/helpers.php",
-                    "src/Mockery.php"
-                ],
-                "psr-4": {
-                    "Mockery\\": "src/Mockery"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Pádraic Brady",
-                    "email": "padraic.brady@gmail.com",
-                    "homepage": "https://blog.astrumfutura.com"
-                },
-                {
-                    "name": "Dave Marshall",
-                    "email": "dave.marshall@atstsolutions.co.uk",
-                    "homepage": "https://davedevelopment.co.uk"
-                }
-            ],
-            "description": "Mockery is a simple yet flexible PHP mock object framework",
-            "homepage": "https://github.com/mockery/mockery",
-            "keywords": [
-                "BDD",
-                "TDD",
-                "library",
-                "mock",
-                "mock objects",
-                "mockery",
-                "stub",
-                "test",
-                "test double",
-                "testing"
-            ],
-            "support": {
-                "issues": "https://github.com/mockery/mockery/issues",
-                "source": "https://github.com/mockery/mockery/tree/2.0.x"
-            },
-            "time": "2024-03-12T12:46:22+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -6208,14 +6129,15 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "friendsofphp/php-cs-fixer": 20,
-        "mockery/mockery": 20,
         "pestphp/pest": 20,
         "phpstan/phpstan": 20,
         "symfony/var-dumper": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": {},
+    "platform": {
+        "php": "^8.4"
+    },
     "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }

@@ -54,7 +54,6 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "dev-master",
-        "mockery/mockery": "2.0.x-dev",
         "pestphp/pest": "5.x-dev",
         "phpstan/phpstan": "2.2.x-dev",
         "symfony/var-dumper": "8.1.x-dev"
