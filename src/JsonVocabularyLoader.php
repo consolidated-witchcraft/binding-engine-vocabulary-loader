@@ -73,6 +73,7 @@ final readonly class JsonVocabularyLoader implements VocabularyLoaderInterface
      * @return array<string, mixed>
      *
      * @throws VocabularyLoadingException
+     * @throws \JsonException
      */
     private function decodeJson(string $input): array
     {

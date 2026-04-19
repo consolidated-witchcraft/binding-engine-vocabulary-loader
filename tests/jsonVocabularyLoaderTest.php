@@ -529,3 +529,195 @@ it(
         );
     }
 );
+it(
+    'rejects non-object top-level json values with a clear message',
+    /**
+     * @throws JsonException
+     */
+    function () {
+        $loader = new JsonVocabularyLoader();
+
+        expect(
+            fn () => $loader->load(json_encode(['not', 'an', 'object'], JSON_THROW_ON_ERROR))
+        )->toThrow(
+            VocabularyLoadingException::class,
+            'Expected top-level JSON object.',
+        );
+    }
+);
+
+it(
+    'wraps invalid top-level identifier values from the vocabulary layer',
+    /**
+     * @throws JsonException
+     */
+    function () {
+        $loader = new JsonVocabularyLoader();
+
+        $json = json_encode([
+            'identifier' => 'Bad Identifier',
+            'label' => 'Test Label',
+            'version' => '0.1.0',
+            'bindingTypes' => [],
+        ], JSON_THROW_ON_ERROR);
+
+        expect(
+            fn () => $loader->load($json)
+        )->toThrow(
+            VocabularyLoadingException::class,
+            "Invalid vocabulary: The identifier 'Bad Identifier' is invalid. Identifiers may only contain lowercase letters and hyphens, and may not be empty.",
+        );
+    }
+);
+
+it(
+    'wraps invalid top-level label values from the vocabulary layer',
+    /**
+     * @throws JsonException
+     */
+    function () {
+        $loader = new JsonVocabularyLoader();
+
+        $json = json_encode([
+            'identifier' => 'test-vocabulary',
+            'label' => 'Bad🔥Label',
+            'version' => '0.1.0',
+            'bindingTypes' => [],
+        ], JSON_THROW_ON_ERROR);
+
+        expect(
+            fn () => $loader->load($json)
+        )->toThrow(
+            VocabularyLoadingException::class,
+            "Invalid vocabulary: The label 'Bad🔥Label' is invalid. Labels may only contain numbers, letters, spaces, hyphens, apostrophes, ampersands, commas, parentheses, colons and full-stops (periods).",
+        );
+    }
+);
+
+it(
+    'wraps invalid top-level version values from the vocabulary layer',
+    /**
+     * @throws JsonException
+     */
+    function () {
+        $loader = new JsonVocabularyLoader();
+
+        $json = json_encode([
+            'identifier' => 'test-vocabulary',
+            'label' => 'Test Label',
+            'version' => '1.2',
+            'bindingTypes' => [],
+        ], JSON_THROW_ON_ERROR);
+
+        expect(
+            fn () => $loader->load($json)
+        )->toThrow(
+            VocabularyLoadingException::class,
+            "Invalid vocabulary: The version '1.2' is invalid. Versions must conform to semantic versioning 2.0 standards.",
+        );
+    }
+);
+
+it(
+    'wraps missing nested attribute keys with full path context',
+    /**
+     * @throws JsonException
+     */
+    function () {
+        $loader = new JsonVocabularyLoader();
+
+        $json = json_encode([
+            'identifier' => 'test-vocabulary',
+            'label' => 'Test Label',
+            'version' => '0.1.0',
+            'bindingTypes' => [
+                [
+                    'identifier' => 'event',
+                    'label' => 'Event',
+                    'description' => 'An event binding.',
+                    'allowedPayloadShapes' => ['attribute_list'],
+                    'attributes' => [
+                        [
+                            'label' => 'Type',
+                            'description' => 'The event type.',
+                            'valueType' => 'string',
+                        ],
+                    ],
+                ],
+            ],
+        ], JSON_THROW_ON_ERROR);
+
+        expect(
+            fn () => $loader->load($json)
+        )->toThrow(
+            VocabularyLoadingException::class,
+            'Missing required key "identifier" at "bindingTypes[0].attributes[0]".',
+        );
+    }
+);
+
+it(
+    'wraps non-array nested attributes collections with full path context',
+    /**
+     * @throws JsonException
+     */
+    function () {
+        $loader = new JsonVocabularyLoader();
+
+        $json = json_encode([
+            'identifier' => 'test-vocabulary',
+            'label' => 'Test Label',
+            'version' => '0.1.0',
+            'bindingTypes' => [
+                [
+                    'identifier' => 'event',
+                    'label' => 'Event',
+                    'description' => 'An event binding.',
+                    'allowedPayloadShapes' => ['attribute_list'],
+                    'attributes' => 'not-an-array',
+                ],
+            ],
+        ], JSON_THROW_ON_ERROR);
+
+        expect(
+            fn () => $loader->load($json)
+        )->toThrow(
+            VocabularyLoadingException::class,
+            'Expected array at "bindingTypes[0].attributes".',
+        );
+    }
+);
+
+it(
+    'wraps non-array nested attribute members with full path context',
+    /**
+     * @throws JsonException
+     */
+    function () {
+        $loader = new JsonVocabularyLoader();
+
+        $json = json_encode([
+            'identifier' => 'test-vocabulary',
+            'label' => 'Test Label',
+            'version' => '0.1.0',
+            'bindingTypes' => [
+                [
+                    'identifier' => 'event',
+                    'label' => 'Event',
+                    'description' => 'An event binding.',
+                    'allowedPayloadShapes' => ['attribute_list'],
+                    'attributes' => [
+                        'not-an-array',
+                    ],
+                ],
+            ],
+        ], JSON_THROW_ON_ERROR);
+
+        expect(
+            fn () => $loader->load($json)
+        )->toThrow(
+            VocabularyLoadingException::class,
+            'Expected object-like array at "bindingTypes[0].attributes[0]".',
+        );
+    }
+);
