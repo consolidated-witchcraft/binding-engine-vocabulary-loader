@@ -11,7 +11,7 @@ __Don't do this:__
 ```php
     public function addItemsToBasket(int $qty) {
         if ($qty > 50) {
-            throw new TooManItemsAddedToBasketException(
+            throw new TooMantItemsAddedToBasketException(
                 "You may not add more than fifty items to your basket at a time.";
             );
         }
@@ -25,7 +25,7 @@ __Do this instead:__
     
     public function addItemsToBasket(int $qty) {
         if ($qty > self::MAX_ITEMS_ADDABLE) {
-            throw new TooManItemsAddedToBasketException(
+            throw new TooMantItemsAddedToBasketException(
                 "You may not add more than fifty items to your basket at a time.";
             );
         }
