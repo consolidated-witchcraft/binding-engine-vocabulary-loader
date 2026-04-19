@@ -3,6 +3,7 @@
     "description": "JSON loader for Conundrum Codex binding vocabularies",
     "type": "library",
     "license": "AGPL-3.0-or-later",
+
     "autoload": {
         "psr-4": {
             "ConundrumCodex\\BindingEngine\\VocabularyLoader\\": "src/"
@@ -59,6 +60,7 @@
         "symfony/var-dumper": "8.1.x-dev"
     },
     "require": {
+        "php": "^8.4",
         "conundrum-codex/binding-engine-vocabulary": ">=0.1.0 <1.0.0"
     }
 }

@@ -40,7 +40,10 @@ trap report_failure ERR
 cd "${REPOSITORY_ROOT}"
 
 echo "Running pre-commit checks..."
-
+if ! git diff --quiet; then
+    echo "Unstaged changes detected. Stage them before committing."
+    exit 1
+fi
 echo
 echo "1/3 php-cs:check"
 CURRENT_CHECK="php-cs:check"
