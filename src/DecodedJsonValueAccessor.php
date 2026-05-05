@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ConundrumCodex\BindingEngine\VocabularyLoader;
+namespace ConsolidatedWitchcraft\BindingEngine\VocabularyLoader;
 
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\MissingRequiredKeyException;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\UnexpectedValueTypeException;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Exceptions\MissingRequiredKeyException;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Exceptions\UnexpectedValueTypeException;
 
 final class DecodedJsonValueAccessor
 {

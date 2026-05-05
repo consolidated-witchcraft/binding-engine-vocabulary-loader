@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-use ConundrumCodex\BindingEngine\Vocabulary\Enums\AttributeValueTypeEnum;
-use ConundrumCodex\BindingEngine\Vocabulary\Enums\BindingPayloadShapeEnum;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\DomainConstructionFailedException;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\InvalidEnumValueException;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\InvalidJsonException;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\MalformedTopLevelStructureException;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\MissingRequiredKeyException;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\UnexpectedValueTypeException;
-use ConundrumCodex\BindingEngine\VocabularyLoader\JsonVocabularyLoader;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Enums\AttributeValueTypeEnum;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Enums\BindingPayloadShapeEnum;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Exceptions\DomainConstructionFailedException;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Exceptions\InvalidEnumValueException;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Exceptions\InvalidJsonException;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Exceptions\MalformedTopLevelStructureException;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Exceptions\MissingRequiredKeyException;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Exceptions\UnexpectedValueTypeException;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\JsonVocabularyLoader;
 
 it(
     'loads a minimal valid vocabulary from json',

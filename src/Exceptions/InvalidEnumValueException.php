@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions;
+namespace ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Exceptions;
 
 final class InvalidEnumValueException extends AbstractVocabularyLoadingException
 {

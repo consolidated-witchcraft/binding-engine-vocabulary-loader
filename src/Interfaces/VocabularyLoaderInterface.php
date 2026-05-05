@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ConundrumCodex\BindingEngine\VocabularyLoader\Interfaces;
+namespace ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Interfaces;
 
-use ConundrumCodex\BindingEngine\Vocabulary\Vocabulary;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Vocabulary;
 
 interface VocabularyLoaderInterface
 {

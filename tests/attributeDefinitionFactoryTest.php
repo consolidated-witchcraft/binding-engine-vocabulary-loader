@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-use ConundrumCodex\BindingEngine\Vocabulary\Enums\AttributeValueTypeEnum;
-use ConundrumCodex\BindingEngine\VocabularyLoader\AttributeDefinitionFactory;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\DomainConstructionFailedException;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\InvalidEnumValueException;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\MissingRequiredKeyException;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\UnexpectedValueTypeException;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Enums\AttributeValueTypeEnum;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\AttributeDefinitionFactory;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Exceptions\DomainConstructionFailedException;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Exceptions\InvalidEnumValueException;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Exceptions\MissingRequiredKeyException;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Exceptions\UnexpectedValueTypeException;
 
 it(
     'constructs an attribute definition from valid non-enum data',

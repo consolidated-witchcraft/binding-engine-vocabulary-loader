@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace ConundrumCodex\BindingEngine\VocabularyLoader;
+namespace ConsolidatedWitchcraft\BindingEngine\VocabularyLoader;
 
-use ConundrumCodex\BindingEngine\Vocabulary\Exceptions\InvalidVocabularyException;
-use ConundrumCodex\BindingEngine\Vocabulary\Vocabulary;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\AbstractVocabularyLoadingException;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\DomainConstructionFailedException;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\InvalidJsonException;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\MalformedTopLevelStructureException;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\UnexpectedValueTypeException;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Interfaces\VocabularyLoaderInterface;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Exceptions\InvalidVocabularyException;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Vocabulary;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Exceptions\AbstractVocabularyLoadingException;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Exceptions\DomainConstructionFailedException;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Exceptions\InvalidJsonException;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Exceptions\MalformedTopLevelStructureException;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Exceptions\UnexpectedValueTypeException;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Interfaces\VocabularyLoaderInterface;
 
 final readonly class JsonVocabularyLoader implements VocabularyLoaderInterface
 {

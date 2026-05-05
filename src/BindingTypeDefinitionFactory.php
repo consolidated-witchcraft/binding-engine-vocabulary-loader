@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace ConundrumCodex\BindingEngine\VocabularyLoader;
+namespace ConsolidatedWitchcraft\BindingEngine\VocabularyLoader;
 
-use ConundrumCodex\BindingEngine\Vocabulary\BindingTypeDefinition;
-use ConundrumCodex\BindingEngine\Vocabulary\Enums\BindingPayloadShapeEnum;
-use ConundrumCodex\BindingEngine\Vocabulary\Exceptions\InvalidBindingTypeDefinitionException;
-use ConundrumCodex\BindingEngine\Vocabulary\Interfaces\AttributeDefinitionInterface;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\AbstractVocabularyLoadingException;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\DomainConstructionFailedException;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\InvalidEnumValueException;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\UnexpectedValueTypeException;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\BindingTypeDefinition;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Enums\BindingPayloadShapeEnum;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Exceptions\InvalidBindingTypeDefinitionException;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Interfaces\AttributeDefinitionInterface;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Exceptions\AbstractVocabularyLoadingException;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Exceptions\DomainConstructionFailedException;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Exceptions\InvalidEnumValueException;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Exceptions\UnexpectedValueTypeException;
 
 final readonly class BindingTypeDefinitionFactory
 {

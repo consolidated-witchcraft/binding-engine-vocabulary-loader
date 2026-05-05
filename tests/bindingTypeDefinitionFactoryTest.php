@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-use ConundrumCodex\BindingEngine\Vocabulary\Enums\BindingPayloadShapeEnum;
-use ConundrumCodex\BindingEngine\VocabularyLoader\AttributeDefinitionFactory;
-use ConundrumCodex\BindingEngine\VocabularyLoader\BindingTypeDefinitionFactory;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\DomainConstructionFailedException;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\InvalidEnumValueException;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\MissingRequiredKeyException;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\UnexpectedValueTypeException;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Enums\BindingPayloadShapeEnum;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\AttributeDefinitionFactory;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\BindingTypeDefinitionFactory;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Exceptions\DomainConstructionFailedException;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Exceptions\InvalidEnumValueException;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Exceptions\MissingRequiredKeyException;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Exceptions\UnexpectedValueTypeException;
 
 it(
     'constructs a binding type definition from valid data',

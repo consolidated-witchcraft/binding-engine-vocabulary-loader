@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace ConundrumCodex\BindingEngine\VocabularyLoader;
+namespace ConsolidatedWitchcraft\BindingEngine\VocabularyLoader;
 
-use ConundrumCodex\BindingEngine\Vocabulary\AttributeDefinition;
-use ConundrumCodex\BindingEngine\Vocabulary\Enums\AttributeValueTypeEnum;
-use ConundrumCodex\BindingEngine\Vocabulary\Exceptions\InvalidAttributeDefinitionException;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\AbstractVocabularyLoadingException;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\DomainConstructionFailedException;
-use ConundrumCodex\BindingEngine\VocabularyLoader\Exceptions\InvalidEnumValueException;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\AttributeDefinition;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Enums\AttributeValueTypeEnum;
+use ConsolidatedWitchcraft\BindingEngine\Vocabulary\Exceptions\InvalidAttributeDefinitionException;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Exceptions\AbstractVocabularyLoadingException;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Exceptions\DomainConstructionFailedException;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\Exceptions\InvalidEnumValueException;
 
 final readonly class AttributeDefinitionFactory
 {
