@@ -1,6 +1,6 @@
-# Conundrum Codex — Binding Vocabulary JSON Loader
+# Consolidate Witchcraft BindingEngine — Binding Vocabulary JSON Loader
 
-This library provides a **JSON-based loader for binding vocabularies** in the Conundrum Codex system.
+This library provides a **JSON-based loader for binding vocabularies** in the BindingEngine system.
 
 It allows users to define binding types, attributes, and validation rules in JSON, and converts that configuration into a validated `Vocabulary` object.
 
@@ -18,7 +18,7 @@ It operates **before validation**, and produces the domain objects required by t
 
 ## Architectural Context
 
-The Conundrum Codex binding system is composed of multiple layers:
+The BindingEngine is composed of multiple layers:
 
 ### 1. Parser
 - Parses source text into an AST
