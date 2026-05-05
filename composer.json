@@ -1,12 +1,12 @@
 {
     "name": "consolidated-witchcraft/binding-engine-vocabulary-loader",
-    "description": "JSON loader for Conundrum Codex binding vocabularies",
+    "description": "JSON loader for Consolidate Witchcraft BindingEngine vocabularies",
     "type": "library",
     "license": "AGPL-3.0-or-later",
 
     "autoload": {
         "psr-4": {
-            "ConundrumCodex\\BindingEngine\\VocabularyLoader\\": "src/"
+            "ConsolidatedWitchcraft\\BindingEngine\\VocabularyLoader\\": "src/"
         }
     },
     "autoload-dev": {
@@ -17,11 +17,13 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "git@github.com:Conundrum-Codex/binding-engine-parser.git"
+            "url": "https://github.com/consolidated-witchcraft/binding-engine-parser.git",
+            "no-api": true
         },
         {
             "type": "vcs",
-            "url": "git@github.com:Conundrum-Codex/binding-engine-vocabulary.git"
+            "url": "https://github.com/consolidated-witchcraft/binding-engine-vocabulary.git",
+            "no-api": true
         }
     ],
     "authors": [
@@ -31,10 +33,10 @@
         }
     ],
     "minimum-stability": "dev",
-    "homepage": "https://github.com/Conundrum-Codex/binding-engine-vocabulary-loader",
+    "homepage": "https://github.com/consolidated-witchcraft/binding-engine-vocabulary-loader",
     "support": {
-        "issues": "https://github.com/Conundrum-Codex/binding-engine-vocabulary-loader/issues",
-        "source": "https://github.com/Conundrum-Codex/binding-engine-vocabulary-loader"
+        "issues": "https://github.com/consolidated-witchcraft/binding-engine-vocabulary-loader/issues",
+        "source": "https://github.com/consolidated-witchcraft/binding-engine-vocabulary-loader"
     },
     "config": {
         "allow-plugins": {
@@ -60,6 +62,6 @@
     },
     "require": {
         "php": "^8.4",
-        "conundrum-codex/binding-engine-vocabulary": ">=0.1.0 <1.0.0"
+        "consolidated-witchcraft/binding-engine-vocabulary": ">=0.1.0 <1.0.0"
     }
 }
