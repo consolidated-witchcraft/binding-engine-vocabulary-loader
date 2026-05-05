@@ -1,6 +1,6 @@
 {
     "name": "consolidated-witchcraft/binding-engine-vocabulary-loader",
-    "description": "JSON loader for Consolidate Witchcraft BindingEngine vocabularies",
+    "description": "JSON loader for Consolidated Witchcraft Binding Engine vocabularies",
     "type": "library",
     "license": "AGPL-3.0-or-later",
 

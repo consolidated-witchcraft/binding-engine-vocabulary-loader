@@ -1,8 +1,8 @@
-# Consolidate Witchcraft BindingEngine — Binding Vocabulary JSON Loader
+# Consolidated Witchcraft Binding Engine - Binding Vocabulary JSON Loader
 
-This library provides a **JSON-based loader for binding vocabularies** in the BindingEngine system.
+This library provides a **JSON-based loader for binding vocabularies** in the Binding Engine system.
 
-It allows users to define binding types, attributes, and validation rules in JSON, and converts that configuration into a validated `Vocabulary` object.
+It allows users to define vocabularies, binding types, attributes, and validation rules in JSON, and converts that configuration into a validated `Vocabulary` object.
 
 ---
 
@@ -18,7 +18,7 @@ It operates **before validation**, and produces the domain objects required by t
 
 ## Architectural Context
 
-The BindingEngine is composed of multiple layers:
+The Binding Engine is composed of multiple layers:
 
 ### 1. Parser
 - Parses source text into an AST
@@ -57,19 +57,19 @@ This library does **not**:
 - Perform inference
 - Perform projection
 - Resolve links
-- Render output
+- Mutate vocabulary objects after construction
 
 ---
 
 ## Installation
 
 ```bash
-composer require conundrum-codex/binding-vocabulary-loader
+composer require consolidated-witchcraft/binding-engine-vocabulary-loader
 ```
 ---
 ## Usage
 ```php
-use ConundrumCodex\BindingEngine\VocabularyLoader\JsonVocabularyLoader;
+use ConsolidatedWitchcraft\BindingEngine\VocabularyLoader\JsonVocabularyLoader;
 
 $json = file_get_contents('vocabulary.json');
 
@@ -80,12 +80,15 @@ $vocabulary = $loader->load($json);
 
 The returned $vocabulary is a fully constructed and validated instance of:
 ```php
-ConundrumCodex\BindingEngine\Vocabulary\Vocabulary
+ConsolidatedWitchcraft\BindingEngine\Vocabulary\Vocabulary
 ```
 ---
 ## Example JSON
 ```json
 {
+  "identifier": "example-vocabulary",
+  "label": "Example Vocabulary",
+  "version": "0.1.0",
   "bindingTypes": [
     {
       "identifier": "event",
@@ -116,9 +119,12 @@ ConundrumCodex\BindingEngine\Vocabulary\Vocabulary
 ---
 ## JSON Structure
 ### Top-Level
-| Field        | Type  | Required | Description                      |
-| ------------ | ----- | -------- | -------------------------------- |
-| bindingTypes | array | yes      | List of binding type definitions |
+| Field        | Type   | Required | Description                      |
+| ------------ | ------ | -------- | -------------------------------- |
+| identifier   | string | yes      | Unique vocabulary identifier     |
+| label        | string | yes      | Human-readable vocabulary label  |
+| version      | string | yes      | Semantic version string          |
+| bindingTypes | array  | yes      | List of binding type definitions |
 ### Binding Type
 | Field                | Type     | Required | Description                     |
 | -------------------- | -------- | -------- | ------------------------------- |
@@ -133,7 +139,7 @@ ConundrumCodex\BindingEngine\Vocabulary\Vocabulary
 | identifier    | string   | yes                 | Attribute identifier                |
 | label         | string   | yes                 | Human-readable label                |
 | description   | string   | yes                 | Description                         |
-| valueType     | string   | yes                 | Value type (`string`, `enum`, etc.) |
+| valueType     | string   | yes                 | Value type                          |
 | required      | boolean  | no                  | Defaults to `false`                 |
 | repeatable    | boolean  | no                  | Defaults to `false`                 |
 | allowedValues | string[] | required for `enum` | Allowed values for enums            |
@@ -148,7 +154,7 @@ ConundrumCodex\BindingEngine\Vocabulary\Vocabulary
 - `attribute_list`
 ---
 ## Error Handling
-Invalid configurations will throw a VocabularyLoadingException (or equivalent), with clear and precise messages.
+Invalid configurations will throw a `VocabularyLoadingException`, with clear and precise messages.
 Examples:
 
 - Missing required keys
@@ -195,5 +201,5 @@ Future loaders may support:
 ---
 ## Summary
 This library bridges:
-User-defined JSON → Validated vocabulary domain objects
+User-defined JSON -> Validated vocabulary domain objects
 It enables flexible, user-defined binding systems without compromising correctness or structure.
